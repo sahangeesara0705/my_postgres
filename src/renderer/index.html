@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:" />
+  <title>My Postgres</title>
+  <link rel="stylesheet" href="../../node_modules/codemirror/lib/codemirror.css" />
+  <link rel="stylesheet" href="../../node_modules/codemirror/addon/hint/show-hint.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Connection screen -->
+  <div id="connect-screen" class="hidden">
+    <div class="connect-wrap">
+      <div class="connect-brand">
+        <img src="../../build/icon.png" alt="" />
+        <div>
+          <h1>My Postgres</h1>
+          <p>PostgreSQL database management</p>
+        </div>
+      </div>
+      <div class="connect-body">
+        <div class="saved-list">
+          <div class="saved-head">
+            <span>Saved connections</span>
+            <button class="btn sm" id="btn-new-conn">+ New</button>
+          </div>
+          <div id="saved-conns"></div>
+        </div>
+        <form id="conn-form" class="conn-form" autocomplete="off">
+          <h2 id="conn-form-title">New connection</h2>
+          <div class="grid2">
+            <label class="span2">Connection name<input name="name" placeholder="My local server" /></label>
+            <label>Host<input name="host" value="localhost" required /></label>
+            <label>Port<input name="port" type="number" value="5432" required /></label>
+            <label>Username<input name="user" value="postgres" /></label>
+            <label>Password<input name="password" type="password" placeholder="" /></label>
+            <label class="span2">Default database<input name="database" value="postgres" /></label>
+            <label class="check"><input type="checkbox" name="savePassword" checked /> Save password (encrypted with the system keyring)</label>
+            <label class="check"><input type="checkbox" name="ssl" /> Use SSL</label>
+            <label class="check"><input type="checkbox" name="sslVerify" /> Verify server certificate</label>
+            <label>Color<input name="color" type="color" value="#336791" /></label>
+          </div>
+          <div id="conn-msg" class="conn-msg"></div>
+          <div class="form-actions">
+            <button type="button" class="btn danger hidden" id="btn-del-conn">Delete</button>
+            <span class="spacer"></span>
+            <button type="button" class="btn" id="btn-test-conn">Test</button>
+            <button type="button" class="btn" id="btn-save-conn">Save</button>
+            <button type="submit" class="btn primary" id="btn-connect">Connect</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main application -->
+  <div id="app" class="hidden">
+    <header id="topbar">
+      <div class="brand"><img src="../../build/icon.png" alt="" /> My Postgres</div>
+      <div id="conn-badge"></div>
+      <span class="spacer"></span>
+      <button class="btn ghost sm" id="btn-server" title="Server overview">Server</button>
+      <button class="btn ghost sm" id="btn-sql" title="New SQL editor (Ctrl+T)">SQL Editor</button>
+      <button class="btn ghost sm" id="btn-theme" title="Toggle theme">Theme</button>
+      <button class="btn ghost sm" id="btn-disconnect">Disconnect</button>
+    </header>
+    <div id="workspace">
+      <aside id="sidebar">
+        <div class="side-tools">
+          <input id="tree-filter" placeholder="Filter objects…" />
+          <button class="btn sm icon" id="btn-refresh-tree" title="Refresh (F5)">⟳</button>
+        </div>
+        <div class="side-opts">
+          <label><input type="checkbox" id="opt-system" /> Show system objects</label>
+        </div>
+        <div id="tree"></div>
+      </aside>
+      <div id="resizer"></div>
+      <main id="main">
+        <div id="tabbar"></div>
+        <div id="tabcontent"></div>
+      </main>
+    </div>
+    <footer id="statusbar"><span id="status-text">Ready</span><span class="spacer"></span><span id="status-right"></span></footer>
+  </div>
+
+  <div id="modal-root"></div>
+  <div id="toasts"></div>
+  <div id="ctxmenu" class="hidden"></div>
+
+  <script src="../../node_modules/codemirror/lib/codemirror.js"></script>
+  <script src="../../node_modules/codemirror/mode/sql/sql.js"></script>
+  <script src="../../node_modules/codemirror/addon/hint/show-hint.js"></script>
+  <script src="../../node_modules/codemirror/addon/hint/sql-hint.js"></script>
+  <script src="../../node_modules/codemirror/addon/edit/matchbrackets.js"></script>
+  <script src="../../node_modules/codemirror/addon/edit/closebrackets.js"></script>
+  <script src="../../node_modules/codemirror/addon/selection/active-line.js"></script>
+  <script src="../../node_modules/codemirror/addon/comment/comment.js"></script>
+  <script src="js/util.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/grid.js"></script>
+  <script src="js/views/sql.js"></script>
+  <script src="js/views/table.js"></script>
+  <script src="js/views/database.js"></script>
+  <script src="js/views/server.js"></script>
+  <script src="js/tree.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

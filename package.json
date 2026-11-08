@@ -1,0 +1,71 @@
+{
+  "name": "my-postgres",
+  "productName": "My Postgres",
+  "version": "1.0.0",
+  "description": "My Postgres - a graphical PostgreSQL database management tool",
+  "main": "main.js",
+  "desktopName": "my-postgres.desktop",
+  "homepage": "https://github.com/sahan/my-postgres",
+  "author": {
+    "name": "Sahan",
+    "email": "sahangeesaradev11@gmail.com"
+  },
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "icon": "node scripts/make-icon.js",
+    "dist": "node scripts/make-icon.js && electron-builder --linux deb AppImage",
+    "dist:deb": "node scripts/make-icon.js && electron-builder --linux deb"
+  },
+  "build": {
+    "appId": "com.sahan.mypostgres",
+    "productName": "My Postgres",
+    "files": [
+      "main.js",
+      "preload.js",
+      "src/**/*",
+      "build/icon.png"
+    ],
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "linux": {
+      "target": [
+        "deb",
+        "AppImage"
+      ],
+      "category": "Development",
+      "icon": "build/icon.png",
+      "executableName": "my-postgres",
+      "maintainer": "Sahan <sahangeesaradev11@gmail.com>",
+      "synopsis": "PostgreSQL database management tool",
+      "description": "My Postgres is a graphical tool to browse, edit and maintain PostgreSQL databases.",
+      "desktop": {
+        "entry": {
+          "Name": "My Postgres",
+          "Comment": "PostgreSQL database management tool",
+          "Keywords": "postgres;postgresql;database;sql;"
+        }
+      },
+      "syncDesktopName": true
+    },
+    "deb": {
+      "recommends": [
+        "postgresql-client"
+      ]
+    }
+  },
+  "dependencies": {
+    "codemirror": "^5.65.21",
+    "pg": "^8.23.1",
+    "pg-cursor": "^2.22.1"
+  },
+  "devDependencies": {
+    "electron": "^45.2.3",
+    "electron-builder": "^26.18.0"
+  },
+  "allowScripts": {
+    "electron@45.2.3": true
+  }
+}
